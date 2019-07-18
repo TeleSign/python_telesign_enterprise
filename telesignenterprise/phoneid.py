@@ -3,6 +3,9 @@ from __future__ import unicode_literals
 from telesign.phoneid import PhoneIdClient as _PhoneIdClient
 
 PHONEID_STANDARD_RESOURCE = "/v1/phoneid/standard/{phone_number}"
+# Added by me
+PHONEID_CONSENT_RESOURCE = "/consent/{phone_number}"
+# End add
 PHONEID_SCORE_RESOURCE = "/v1/phoneid/score/{phone_number}"
 PHONEID_CONTACT_RESOURCE = "/v1/phoneid/contact/{phone_number}"
 PHONEID_LIVE_RESOURCE = "/v1/phoneid/live/{phone_number}"
@@ -26,11 +29,16 @@ class PhoneIdClient(_PhoneIdClient):
         """
         The PhoneID Standard API that provides phone type and telecom carrier information to identify which phone
         numbers can receive SMS messages and/or a potential fraud risk.
-        
+
         See https://developer.telesign.com/docs/rest_phoneid-standard for detailed API documentation.
         """
-        return self.get(PHONEID_STANDARD_RESOURCE.format(phone_number=phone_number),
-                        **params)
+        return self.get(PHONEID_STANDARD_RESOURCE.format(phone_number=phone_number), **params)
+
+    #Added by me
+    def consent(self, phone_number, **params):
+    # TODO: Add comments in here about what this iss supposed to do
+        return self.post(PHONEID_CONSENT_RESOURCE.format(phone_number=phone_number), **params)
+    #End adding stuff
 
     def score(self, phone_number, ucid, **params):
         """
