@@ -3,9 +3,8 @@ from __future__ import unicode_literals
 from telesign.phoneid import PhoneIdClient as _PhoneIdClient
 
 PHONEID_STANDARD_RESOURCE = "/v1/phoneid/standard/{phone_number}"
-# Added by me
 PHONEID_CONSENT_RESOURCE = "/consent/{phone_number}"
-# End add
+PHONEID_CONSENT_HISTORY_RESOURCE = "/consent/history/{phone_number}"
 PHONEID_SCORE_RESOURCE = "/v1/phoneid/score/{phone_number}"
 PHONEID_CONTACT_RESOURCE = "/v1/phoneid/contact/{phone_number}"
 PHONEID_LIVE_RESOURCE = "/v1/phoneid/live/{phone_number}"
@@ -34,11 +33,31 @@ class PhoneIdClient(_PhoneIdClient):
         """
         return self.get(PHONEID_STANDARD_RESOURCE.format(phone_number=phone_number), **params)
 
-    #Added by me
-    def consent(self, phone_number, **params):
-    # TODO: Add comments in here about what this iss supposed to do
+    def consent_send(self, phone_number, **params):
+        """
+        The PhoneID Consent API allows you to send consent information for an add-on or add-ons that require(s) it.
+        """
         return self.post(PHONEID_CONSENT_RESOURCE.format(phone_number=phone_number), **params)
-    #End adding stuff
+
+    def consent_search(self, phone_number, **params):
+        """
+        The PhoneID Consent API allows you to search for and retrieve consent information for an end user by phone number.
+        """
+        return self.get(PHONEID_CONSENT_RESOURCE.format(phone_number=phone_number), **params)
+
+    def consent_delete(self, phone_number, **params):
+        """
+        The PhoneID Consent API allows you to delete consent information for an add-on or add-ons that require(s) it.
+        """
+
+        return self.delete(PHONEID_CONSENT_RESOURCE.format(phone_number=phone_number), **params)
+
+    def consent_history(self, phone_number):
+        """
+        The PhoneID Consent API allows you to retrieve all available consent history for a phone number.
+        """
+
+        return self.get(PHONEID_CONSENT_HISTORY_RESOURCE.format(phone_number=phone_number))
 
     def score(self, phone_number, ucid, **params):
         """
