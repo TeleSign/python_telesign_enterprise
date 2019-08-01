@@ -1,10 +1,13 @@
+# Use the Send feature of the PhoneID Consent API to send
+# consent information for a phone number for one or more add-ons.
+
 from __future__ import print_function
 from telesignenterprise.phoneid import PhoneIdClient
 
-customer_id = "Put your Customer ID between these quotes."
+customer_id = "Put your customer ID between these quotes."
 api_key = "Put your API key between these quotes."
 
-phone_number = "Put the phone number you want to retrieve consent history for between these quotes."
+phone_number = "Put the complete phone number you want to send consent information for here."
 consent_method = "1"
 consent_timestamp = "2019-07-12T02:39:27Z"
 
@@ -14,9 +17,3 @@ phoneid = PhoneIdClient(customer_id, api_key)
 response = phoneid.consent_send(phone_number, **params)
 
 print(response.json)
-
-"""
-
-This code sample shows you how to send consent for an add-on service.
-
-"""

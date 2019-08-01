@@ -35,29 +35,28 @@ class PhoneIdClient(_PhoneIdClient):
 
     def consent_send(self, phone_number, **params):
         """
-        The PhoneID Consent API allows you to send consent information for an add-on or add-ons that require(s) it.
+        The PhoneID Consent API's send feature allows you to send consent information for an add-on or add-ons that require(s) it.
         """
         return self.post(PHONEID_CONSENT_RESOURCE.format(phone_number=phone_number), **params)
 
     def consent_search(self, phone_number, **params):
         """
-        The PhoneID Consent API allows you to search for and retrieve consent information for an end user by phone number.
+        The PhoneID Consent API's search feature allows you to search for and retrieve consent information for an end user by phone number.
         """
         return self.get(PHONEID_CONSENT_RESOURCE.format(phone_number=phone_number), **params)
 
-    def consent_delete(self, phone_number, **params):
-        """
-        The PhoneID Consent API allows you to delete consent information for an add-on or add-ons that require(s) it.
-        """
-
-        return self.delete(PHONEID_CONSENT_RESOURCE.format(phone_number=phone_number), **params)
-
     def consent_history(self, phone_number):
         """
-        The PhoneID Consent API allows you to retrieve all available consent history for a phone number.
+        The PhoneID Consent API's retrieve all history feature allows you to retrieve all available consent history for a phone number.
         """
 
         return self.get(PHONEID_CONSENT_HISTORY_RESOURCE.format(phone_number=phone_number))
+
+    def consent_delete(self, phone_number, **params):
+        """
+        The PhoneID Consent API's delete feature allows you to delete consent information for a phone number. 
+        """
+        return self.delete(PHONEID_CONSENT_RESOURCE.format(phone_number=phone_number), **params)
 
     def score(self, phone_number, ucid, **params):
         """
