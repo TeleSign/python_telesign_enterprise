@@ -27,7 +27,7 @@ To install the TeleSign Enterprise Python SDK:
 
     $ pip install -e /path/to/python_telesign_enterprise
 
-Python **2.7+** is required for the TeleSign Enterprise Python SDK.
+Python **2.7+** or **3.7+** is required for the TeleSign Enterprise Python SDK.
 
 Authentication
 --------------
