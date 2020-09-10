@@ -15,8 +15,8 @@ For more information about TeleSign, visit our `website <http://www.TeleSign.com
 Documentation
 -------------
 
-Code documentation is included in the SDK. Complete documentation, quick start guides and reference material
-for the TeleSign API is available within the `TeleSign Enterprise Documentation <https://enterprise.telesign.com/>`_.
+Code documentation is included in the SDK. Complete documentation, quick start guides, and reference material
+for TeleSign APIs is available in the `TeleSign Enterprise Documentation <https://enterprise.telesign.com/>`_.
 
 Installation
 ------------
@@ -32,15 +32,15 @@ Python **2.7+** or **3.7+** is required for the TeleSign Enterprise Python SDK.
 Authentication
 --------------
 
-You will need a Customer ID and API Key in order to use TeleSign’s REST API. If you are already a customer and need an
+You need a Customer ID and API Key to use the TeleSign SDK. If you are already a customer and need an
 API Key, you can retrieve it from `TelePortal <https://teleportal.telesign.com>`_.
 
 Dependencies
 ------------
 
-We make use of popular, feature-rich and well-tested open-source libraries to perform the underlying functionality of
+We make use of popular, feature-rich, and well-tested open-source libraries to perform the underlying functionality of
 the SDK. These dependencies are managed by the community accepted package manager. If you are unable to add these
-additional third party dependencies to your project we have ensured that the SDK code is easy to read and can serve as
+additional third-party dependencies to your project we have ensured that the SDK code is easy to read and can serve as
 sample code. We have also made sure that more complicated functions such as generate_telesign_headers can be easily
 extracted from the SDK and used 'as is' in your project.
 
