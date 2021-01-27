@@ -3,6 +3,8 @@ from __future__ import unicode_literals
 from telesign.phoneid import PhoneIdClient as _PhoneIdClient
 
 PHONEID_STANDARD_RESOURCE = "/v1/phoneid/standard/{phone_number}"
+PHONEID_CONSENT_RESOURCE = "/consent/{phone_number}"
+PHONEID_CONSENT_HISTORY_RESOURCE = "/consent/history/{phone_number}"
 PHONEID_SCORE_RESOURCE = "/v1/phoneid/score/{phone_number}"
 PHONEID_CONTACT_RESOURCE = "/v1/phoneid/contact/{phone_number}"
 PHONEID_LIVE_RESOURCE = "/v1/phoneid/live/{phone_number}"
@@ -26,11 +28,35 @@ class PhoneIdClient(_PhoneIdClient):
         """
         The PhoneID Standard API that provides phone type and telecom carrier information to identify which phone
         numbers can receive SMS messages and/or a potential fraud risk.
-        
+
         See https://developer.telesign.com/docs/rest_phoneid-standard for detailed API documentation.
         """
-        return self.get(PHONEID_STANDARD_RESOURCE.format(phone_number=phone_number),
-                        **params)
+        return self.get(PHONEID_STANDARD_RESOURCE.format(phone_number=phone_number), **params)
+
+    def consent_send(self, phone_number, **params):
+        """
+        The PhoneID Consent API's send feature allows you to send consent information for an add-on or add-ons that require(s) it.
+        """
+        return self.post(PHONEID_CONSENT_RESOURCE.format(phone_number=phone_number), **params)
+
+    def consent_search(self, phone_number, **params):
+        """
+        The PhoneID Consent API's search feature allows you to search for and retrieve consent information for an end user by phone number.
+        """
+        return self.get(PHONEID_CONSENT_RESOURCE.format(phone_number=phone_number), **params)
+
+    def consent_history(self, phone_number):
+        """
+        The PhoneID Consent API's retrieve all history feature allows you to retrieve all available consent history for a phone number.
+        """
+
+        return self.get(PHONEID_CONSENT_HISTORY_RESOURCE.format(phone_number=phone_number))
+
+    def consent_delete(self, phone_number, **params):
+        """
+        The PhoneID Consent API's delete feature allows you to delete consent information for a phone number. 
+        """
+        return self.delete(PHONEID_CONSENT_RESOURCE.format(phone_number=phone_number), **params)
 
     def score(self, phone_number, ucid, **params):
         """
