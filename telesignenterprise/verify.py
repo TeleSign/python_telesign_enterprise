@@ -8,6 +8,9 @@ VERIFY_SMART_RESOURCE = "/v1/verify/smart"
 VERIFY_PUSH_RESOURCE = "/v2/verify/push"
 VERIFY_STATUS_RESOURCE = "/v1/verify/{reference_id}"
 VERIFY_COMPLETION_RESOURCE = "/v1/verify/completion/{reference_id}"
+BASE_URL_VERIFY_API = "https://verify.telesign.com"
+DEFAULT_FS_BASE_URL = "https://rest-ww.telesign.com"
+PATH_VERIFICATION = "/verification"
 
 
 class VerifyClient(RestClient):
@@ -16,8 +19,28 @@ class VerifyClient(RestClient):
     sent via SMS message, Voice call or Push Notification.
     """
 
-    def __init__(self, customer_id, api_key, rest_endpoint='https://rest-ww.telesign.com', **kwargs):
+    def __init__(self, customer_id, api_key, rest_endpoint=DEFAULT_FS_BASE_URL, **kwargs):
         super(VerifyClient, self).__init__(customer_id, api_key, rest_endpoint=rest_endpoint, **kwargs)
+
+    def createVerificationProcess(self, phone_number, params={}):
+        """
+        Use this action to create a verification process for the specified phone number.
+
+        See https://developer.telesign.com/enterprise/reference/createverificationprocess for detailed API documentation.
+        """
+        params["recipient"] = {
+            "phone_number": phone_number
+        }
+
+        if "verification_policy" not in params:
+            params["verification_policy"] = [
+                {
+                    "method": "sms"
+                }
+            ]
+
+        self.set_endpoint(BASE_URL_VERIFY_API)
+        return self.post(PATH_VERIFICATION, json_fields=params)
 
     def sms(self, phone_number, **params):
         """
