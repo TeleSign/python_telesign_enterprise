@@ -1,3 +1,8 @@
+2.2.0
+- Added method to send requests to Telesign Messaging.
+- Added method to send requests to the Telesign Verify API.
+- Removed Push Verify method in VerifyClient class
+
 2.1.4
 - Added status method to AppVerifyClient
 
