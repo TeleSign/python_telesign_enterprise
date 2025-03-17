@@ -1,6 +1,6 @@
 from setuptools import setup, find_packages
 
-version = "2.1.4"
+version = "2.2.0"
 
 try:
     with open("README") as f:

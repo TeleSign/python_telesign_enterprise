@@ -5,19 +5,41 @@ from telesign.rest import RestClient
 VERIFY_SMS_RESOURCE = "/v1/verify/sms"
 VERIFY_VOICE_RESOURCE = "/v1/verify/call"
 VERIFY_SMART_RESOURCE = "/v1/verify/smart"
-VERIFY_PUSH_RESOURCE = "/v2/verify/push"
 VERIFY_STATUS_RESOURCE = "/v1/verify/{reference_id}"
 VERIFY_COMPLETION_RESOURCE = "/v1/verify/completion/{reference_id}"
+BASE_URL_VERIFY_API = "https://verify.telesign.com"
+DEFAULT_FS_BASE_URL = "https://rest-ww.telesign.com"
+PATH_VERIFICATION = "/verification"
 
 
 class VerifyClient(RestClient):
     """
     The Verify API delivers phone-based verification and two-factor authentication using a time-based, one-time passcode
-    sent via SMS message, Voice call or Push Notification.
+    sent via SMS message or Voice call.
     """
 
-    def __init__(self, customer_id, api_key, rest_endpoint='https://rest-ww.telesign.com', **kwargs):
+    def __init__(self, customer_id, api_key, rest_endpoint=DEFAULT_FS_BASE_URL, **kwargs):
         super(VerifyClient, self).__init__(customer_id, api_key, rest_endpoint=rest_endpoint, **kwargs)
+
+    def createVerificationProcess(self, phone_number, params={}):
+        """
+        Use this action to create a verification process for the specified phone number.
+
+        See https://developer.telesign.com/enterprise/reference/createverificationprocess for detailed API documentation.
+        """
+        params["recipient"] = {
+            "phone_number": phone_number
+        }
+
+        if "verification_policy" not in params:
+            params["verification_policy"] = [
+                {
+                    "method": "sms"
+                }
+            ]
+
+        self.set_endpoint(BASE_URL_VERIFY_API)
+        return self.post(PATH_VERIFICATION, json_fields=params)
 
     def sms(self, phone_number, **params):
         """
@@ -50,19 +72,6 @@ class VerifyClient(RestClient):
         See https://developer.telesign.com/docs/rest_api-smart-verify for detailed API documentation.
         """
         return self.post(VERIFY_SMART_RESOURCE,
-                         phone_number=phone_number,
-                         ucid=ucid,
-                         **params)
-
-    def push(self, phone_number, ucid, **params):
-        """
-        The Push Verify web service allows you to provide on-device transaction authorization for your end users. It
-        works by delivering authorization requests to your end users via push notification, and then by receiving their
-        permission responses via their mobile device's wireless Internet connection.
-
-        See https://developer.telesign.com/docs/rest_api-verify-push for detailed API documentation.
-        """
-        return self.post(VERIFY_PUSH_RESOURCE,
                          phone_number=phone_number,
                          ucid=ucid,
                          **params)
