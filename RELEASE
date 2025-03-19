@@ -3,7 +3,6 @@
 - Added method to send requests to the Telesign Verify API.
 - Removed Push Verify method in VerifyClient class
 
-
 2.1.4
 - Added status method to AppVerifyClient
 
@@ -99,4 +98,5 @@
 - Optional timeouts are supported.  These may be set both at the class
   level and at the individual call level.   See the documentation in
   the requests module.  
+
 
