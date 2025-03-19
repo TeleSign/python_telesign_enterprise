@@ -1,3 +1,6 @@
+2.2.1
+- Testing the deployment system
+
 2.2.0
 - Added method to send requests to Telesign Messaging.
 - Added method to send requests to the Telesign Verify API.
@@ -98,5 +101,4 @@
 - Optional timeouts are supported.  These may be set both at the class
   level and at the individual call level.   See the documentation in
   the requests module.  
-
 
