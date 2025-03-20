@@ -1,6 +1,6 @@
 from setuptools import setup, find_packages
 
-version = "2.2.0"
+version = "2.2.1"
 
 try:
     with open("README") as f:
@@ -16,7 +16,7 @@ setup(name='telesignenterprise',
           "Development Status :: 5 - Production/Stable",
           "Intended Audience :: Developers",
           "License :: OSI Approved :: MIT License",
-          "Natural Language :: English"
+          "Natural Language :: English",
           "Programming Language :: Python",
           "Programming Language :: Python :: 2.6",
           "Programming Language :: Python :: 2.7",
