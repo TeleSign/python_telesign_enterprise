@@ -1,6 +1,8 @@
 from __future__ import unicode_literals
 
 from telesign.messaging import MessagingClient as _MessagingClient
+import telesignenterprise
+import telesign
 
 OMNI_MESSAGING_RESOURCE = "/v1/omnichannel"
 
@@ -11,7 +13,10 @@ class MessagingClient(_MessagingClient):
     """
 
     def __init__(self, customer_id, api_key, rest_endpoint="https://rest-ww.telesign.com", **kwargs):
-        super(MessagingClient, self).__init__(customer_id, api_key, rest_endpoint=rest_endpoint, **kwargs)
+        source = "python_telesign_enterprise"
+        sdk_version_origin = telesignenterprise.__version__
+        sdk_version_dependency = telesign.__version__
+        super(MessagingClient, self).__init__(customer_id, api_key, rest_endpoint=rest_endpoint, source=source, sdk_version_origin=sdk_version_origin, sdk_version_dependency=sdk_version_dependency, **kwargs)
 
     """
     Send a message to the target recipient using any of Telesign's supported channels.

@@ -1,6 +1,8 @@
 from __future__ import unicode_literals
 
 from telesign.rest import RestClient
+import telesignenterprise
+import telesign
 
 VERIFY_SMS_RESOURCE = "/v1/verify/sms"
 VERIFY_VOICE_RESOURCE = "/v1/verify/call"
@@ -19,7 +21,10 @@ class VerifyClient(RestClient):
     """
 
     def __init__(self, customer_id, api_key, rest_endpoint=DEFAULT_FS_BASE_URL, **kwargs):
-        super(VerifyClient, self).__init__(customer_id, api_key, rest_endpoint=rest_endpoint, **kwargs)
+        source = "python_telesign_enterprise"
+        sdk_version_origin = telesignenterprise.__version__
+        sdk_version_dependency = telesign.__version__
+        super(VerifyClient, self).__init__(customer_id, api_key, rest_endpoint=rest_endpoint, source=source, sdk_version_origin=sdk_version_origin, sdk_version_dependency=sdk_version_dependency, **kwargs)
 
     def createVerificationProcess(self, phone_number, params={}):
         """

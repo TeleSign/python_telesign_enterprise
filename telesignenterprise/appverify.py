@@ -1,6 +1,8 @@
 from __future__ import unicode_literals
 
 from telesign.appverify import AppVerifyClient as _AppVerifyClient
+import telesignenterprise
+import telesign
 
 
 APP_VERIFY_INITIATE_RESOURCE = '/v1/verify/auto/voice/initiate'
@@ -15,7 +17,10 @@ class AppVerifyClient(_AppVerifyClient):
     """
 
     def __init__(self, customer_id, api_key, rest_endpoint='https://rest-ww.telesign.com', **kwargs):
-        super(AppVerifyClient, self).__init__(customer_id, api_key, rest_endpoint=rest_endpoint, **kwargs)
+        source = "python_telesign_enterprise"
+        sdk_version_origin = telesignenterprise.__version__
+        sdk_version_dependency = telesign.__version__
+        super(AppVerifyClient, self).__init__(customer_id, api_key, rest_endpoint=rest_endpoint, source=source, sdk_version_origin=sdk_version_origin, sdk_version_dependency=sdk_version_dependency, **kwargs)
 
     def initiate(self, phone_number, **params):
         """

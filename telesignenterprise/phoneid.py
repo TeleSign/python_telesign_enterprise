@@ -1,6 +1,8 @@
 from __future__ import unicode_literals
 
 from telesign.phoneid import PhoneIdClient as _PhoneIdClient
+import telesignenterprise
+import telesign
 
 PHONEID_STANDARD_RESOURCE = "/v1/phoneid/standard/{phone_number}"
 PHONEID_SCORE_RESOURCE = "/v1/phoneid/score/{phone_number}"
@@ -20,7 +22,10 @@ class PhoneIdClient(_PhoneIdClient):
     """
 
     def __init__(self, customer_id, api_key, rest_endpoint='https://rest-ww.telesign.com', **kwargs):
-        super(PhoneIdClient, self).__init__(customer_id, api_key, rest_endpoint=rest_endpoint, **kwargs)
+        source = "python_telesign_enterprise"
+        sdk_version_origin = telesignenterprise.__version__
+        sdk_version_dependency = telesign.__version__
+        super(PhoneIdClient, self).__init__(customer_id, api_key, rest_endpoint=rest_endpoint, source=source, sdk_version_origin=sdk_version_origin, sdk_version_dependency=sdk_version_dependency, **kwargs)
 
     def standard(self, phone_number, **params):
         """
