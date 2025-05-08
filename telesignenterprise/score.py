@@ -11,7 +11,21 @@ class ScoreClient(_ScoreClient):
     Score provides risk information about a specified phone number.
     """
 
-    def __init__(self, customer_id, api_key, rest_endpoint="https://rest-ww.telesign.com", **kwargs):
+    def __init__(
+        self,
+        customer_id,
+        api_key,
+        rest_endpoint="https://rest-ww.telesign.com",
+        **kwargs
+    ):
         sdk_version_origin = telesignenterprise.__version__
         sdk_version_dependency = telesign.__version__
-        super(ScoreClient, self).__init__(customer_id, api_key, rest_endpoint=rest_endpoint, source=SOURCE_SDK, sdk_version_origin=sdk_version_origin, sdk_version_dependency=sdk_version_dependency, **kwargs)
+        super(ScoreClient, self).__init__(
+            customer_id,
+            api_key,
+            rest_endpoint=rest_endpoint,
+            source=SOURCE_SDK,
+            sdk_version_origin=sdk_version_origin,
+            sdk_version_dependency=sdk_version_dependency,
+            **kwargs
+        )
