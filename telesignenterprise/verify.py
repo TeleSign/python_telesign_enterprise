@@ -1,6 +1,9 @@
 from __future__ import unicode_literals
 
 from telesign.rest import RestClient
+from telesignenterprise.constants import SOURCE_SDK
+import telesignenterprise
+import telesign
 
 VERIFY_SMS_RESOURCE = "/v1/verify/sms"
 VERIFY_VOICE_RESOURCE = "/v1/verify/call"
@@ -18,8 +21,20 @@ class VerifyClient(RestClient):
     sent via SMS message or Voice call.
     """
 
-    def __init__(self, customer_id, api_key, rest_endpoint=DEFAULT_FS_BASE_URL, **kwargs):
-        super(VerifyClient, self).__init__(customer_id, api_key, rest_endpoint=rest_endpoint, **kwargs)
+    def __init__(
+        self, customer_id, api_key, rest_endpoint=DEFAULT_FS_BASE_URL, **kwargs
+    ):
+        sdk_version_origin = telesignenterprise.__version__
+        sdk_version_dependency = telesign.__version__
+        super(VerifyClient, self).__init__(
+            customer_id,
+            api_key,
+            rest_endpoint=rest_endpoint,
+            source=SOURCE_SDK,
+            sdk_version_origin=sdk_version_origin,
+            sdk_version_dependency=sdk_version_dependency,
+            **kwargs
+        )
 
     def createVerificationProcess(self, phone_number, params={}):
         """
@@ -27,16 +42,10 @@ class VerifyClient(RestClient):
 
         See https://developer.telesign.com/enterprise/reference/createverificationprocess for detailed API documentation.
         """
-        params["recipient"] = {
-            "phone_number": phone_number
-        }
+        params["recipient"] = {"phone_number": phone_number}
 
         if "verification_policy" not in params:
-            params["verification_policy"] = [
-                {
-                    "method": "sms"
-                }
-            ]
+            params["verification_policy"] = [{"method": "sms"}]
 
         self.set_endpoint(BASE_URL_VERIFY_API)
         return self.post(PATH_VERIFICATION, json_fields=params)
@@ -48,9 +57,7 @@ class VerifyClient(RestClient):
 
         See https://developer.telesign.com/docs/rest_api-verify-sms for detailed API documentation.
         """
-        return self.post(VERIFY_SMS_RESOURCE,
-                         phone_number=phone_number,
-                         **params)
+        return self.post(VERIFY_SMS_RESOURCE, phone_number=phone_number, **params)
 
     def voice(self, phone_number, **params):
         """
@@ -59,9 +66,7 @@ class VerifyClient(RestClient):
 
         See https://developer.telesign.com/docs/rest_api-verify-call for detailed API documentation.
         """
-        return self.post(VERIFY_VOICE_RESOURCE,
-                         phone_number=phone_number,
-                         **params)
+        return self.post(VERIFY_VOICE_RESOURCE, phone_number=phone_number, **params)
 
     def smart(self, phone_number, ucid, **params):
         """
@@ -71,10 +76,9 @@ class VerifyClient(RestClient):
 
         See https://developer.telesign.com/docs/rest_api-smart-verify for detailed API documentation.
         """
-        return self.post(VERIFY_SMART_RESOURCE,
-                         phone_number=phone_number,
-                         ucid=ucid,
-                         **params)
+        return self.post(
+            VERIFY_SMART_RESOURCE, phone_number=phone_number, ucid=ucid, **params
+        )
 
     def status(self, reference_id, **params):
         """
@@ -82,8 +86,9 @@ class VerifyClient(RestClient):
 
         See https://developer.telesign.com/docs/rest_api-verify-transaction-callback for detailed API documentation.
         """
-        return self.get(VERIFY_STATUS_RESOURCE.format(reference_id=reference_id),
-                        **params)
+        return self.get(
+            VERIFY_STATUS_RESOURCE.format(reference_id=reference_id), **params
+        )
 
     def completion(self, reference_id, **params):
         """
@@ -92,5 +97,6 @@ class VerifyClient(RestClient):
 
         See https://developer.telesign.com/docs/completion-service-for-verify-products for detailed API documentation.
         """
-        return self.put(VERIFY_COMPLETION_RESOURCE.format(reference_id=reference_id),
-                        **params)
+        return self.put(
+            VERIFY_COMPLETION_RESOURCE.format(reference_id=reference_id), **params
+        )

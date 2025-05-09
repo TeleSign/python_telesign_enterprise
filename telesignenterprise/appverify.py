@@ -1,11 +1,14 @@
 from __future__ import unicode_literals
 
 from telesign.appverify import AppVerifyClient as _AppVerifyClient
+from telesignenterprise.constants import SOURCE_SDK
+import telesignenterprise
+import telesign
 
 
-APP_VERIFY_INITIATE_RESOURCE = '/v1/verify/auto/voice/initiate'
-APP_VERIFY_FINALIZE_RESOURCE = '/v1/verify/auto/voice/finalize'
-APP_VERIFY_STATUS_RESOURCE = '/v1/verify/auto/voice/{}'
+APP_VERIFY_INITIATE_RESOURCE = "/v1/verify/auto/voice/initiate"
+APP_VERIFY_FINALIZE_RESOURCE = "/v1/verify/auto/voice/finalize"
+APP_VERIFY_STATUS_RESOURCE = "/v1/verify/auto/voice/{}"
 
 
 class AppVerifyClient(_AppVerifyClient):
@@ -14,8 +17,24 @@ class AppVerifyClient(_AppVerifyClient):
     through a voice call by a verification code provided in the caller ID.
     """
 
-    def __init__(self, customer_id, api_key, rest_endpoint='https://rest-ww.telesign.com', **kwargs):
-        super(AppVerifyClient, self).__init__(customer_id, api_key, rest_endpoint=rest_endpoint, **kwargs)
+    def __init__(
+        self,
+        customer_id,
+        api_key,
+        rest_endpoint="https://rest-ww.telesign.com",
+        **kwargs
+    ):
+        sdk_version_origin = telesignenterprise.__version__
+        sdk_version_dependency = telesign.__version__
+        super(AppVerifyClient, self).__init__(
+            customer_id,
+            api_key,
+            rest_endpoint=rest_endpoint,
+            source=SOURCE_SDK,
+            sdk_version_origin=sdk_version_origin,
+            sdk_version_dependency=sdk_version_dependency,
+            **kwargs
+        )
 
     def initiate(self, phone_number, **params):
         """
@@ -25,9 +44,9 @@ class AppVerifyClient(_AppVerifyClient):
 
         See https://enterprise.telesign.com/docs/app-verify-api for detailed API documentation.
         """
-        return self.post(APP_VERIFY_INITIATE_RESOURCE,
-                         phone_number=phone_number,
-                         **params)
+        return self.post(
+            APP_VERIFY_INITIATE_RESOURCE, phone_number=phone_number, **params
+        )
 
     def finalize(self, reference_id, **params):
         """
@@ -37,9 +56,9 @@ class AppVerifyClient(_AppVerifyClient):
 
         See https://enterprise.telesign.com/docs/app-verify-api for detailed API documentation.
         """
-        return self.post(APP_VERIFY_FINALIZE_RESOURCE,
-                         reference_id=reference_id,
-                         **params)
+        return self.post(
+            APP_VERIFY_FINALIZE_RESOURCE, reference_id=reference_id, **params
+        )
 
     def status(self, reference_id, **params):
         """

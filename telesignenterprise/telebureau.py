@@ -1,6 +1,9 @@
 from __future__ import unicode_literals
 
 from telesign.rest import RestClient
+from telesignenterprise.constants import SOURCE_SDK
+import telesignenterprise
+import telesign
 
 TELEBUREAU_CREATE_RESOURCE = "/v1/telebureau/event"
 TELEBUREAU_RETRIEVE_RESOURCE = "/v1/telebureau/event/{reference_id}"
@@ -14,8 +17,24 @@ class TelebureauClient(RestClient):
     Participation is voluntary, but you have to contribute in order to benefit.
     """
 
-    def __init__(self, customer_id, api_key, rest_endpoint='https://rest-ww.telesign.com', **kwargs):
-        super(TelebureauClient, self).__init__(customer_id, api_key, rest_endpoint=rest_endpoint, **kwargs)
+    def __init__(
+        self,
+        customer_id,
+        api_key,
+        rest_endpoint="https://rest-ww.telesign.com",
+        **kwargs
+    ):
+        sdk_version_origin = telesignenterprise.__version__
+        sdk_version_dependency = telesign.__version__
+        super(TelebureauClient, self).__init__(
+            customer_id,
+            api_key,
+            rest_endpoint=rest_endpoint,
+            source=SOURCE_SDK,
+            sdk_version_origin=sdk_version_origin,
+            sdk_version_dependency=sdk_version_dependency,
+            **kwargs
+        )
 
     def create_event(self, phone_number, fraud_type, occurred_at, **params):
         """
@@ -23,11 +42,13 @@ class TelebureauClient(RestClient):
 
         See https://developer.telesign.com/docs/telebureau-api for detailed API documentation.
         """
-        return self.post(TELEBUREAU_CREATE_RESOURCE,
-                         phone_number=phone_number,
-                         fraud_type=fraud_type,
-                         occurred_at=occurred_at,
-                         **params)
+        return self.post(
+            TELEBUREAU_CREATE_RESOURCE,
+            phone_number=phone_number,
+            fraud_type=fraud_type,
+            occurred_at=occurred_at,
+            **params
+        )
 
     def retrieve_event(self, reference_id, **params):
         """
@@ -36,8 +57,9 @@ class TelebureauClient(RestClient):
 
         See https://developer.telesign.com/docs/telebureau-api for detailed API documentation.
         """
-        return self.get(TELEBUREAU_RETRIEVE_RESOURCE.format(reference_id=reference_id),
-                        **params)
+        return self.get(
+            TELEBUREAU_RETRIEVE_RESOURCE.format(reference_id=reference_id), **params
+        )
 
     def delete_event(self, reference_id, **params):
         """
@@ -46,5 +68,6 @@ class TelebureauClient(RestClient):
 
         See https://developer.telesign.com/docs/telebureau-api for detailed API documentation.
         """
-        return self.delete(TELEBUREAU_DELETE_RESOURCE.format(reference_id=reference_id),
-                           **params)
+        return self.delete(
+            TELEBUREAU_DELETE_RESOURCE.format(reference_id=reference_id), **params
+        )
