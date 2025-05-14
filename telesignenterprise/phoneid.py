@@ -1,6 +1,9 @@
 from __future__ import unicode_literals
 
 from telesign.phoneid import PhoneIdClient as _PhoneIdClient
+from telesignenterprise.constants import SOURCE_SDK
+import telesignenterprise
+import telesign
 
 PHONEID_STANDARD_RESOURCE = "/v1/phoneid/standard/{phone_number}"
 PHONEID_SCORE_RESOURCE = "/v1/phoneid/score/{phone_number}"
@@ -19,18 +22,35 @@ class PhoneIdClient(_PhoneIdClient):
     creating accounts and accessing your applications.
     """
 
-    def __init__(self, customer_id, api_key, rest_endpoint='https://rest-ww.telesign.com', **kwargs):
-        super(PhoneIdClient, self).__init__(customer_id, api_key, rest_endpoint=rest_endpoint, **kwargs)
+    def __init__(
+        self,
+        customer_id,
+        api_key,
+        rest_endpoint="https://rest-ww.telesign.com",
+        **kwargs
+    ):
+        sdk_version_origin = telesignenterprise.__version__
+        sdk_version_dependency = telesign.__version__
+        super(PhoneIdClient, self).__init__(
+            customer_id,
+            api_key,
+            rest_endpoint=rest_endpoint,
+            source=SOURCE_SDK,
+            sdk_version_origin=sdk_version_origin,
+            sdk_version_dependency=sdk_version_dependency,
+            **kwargs
+        )
 
     def standard(self, phone_number, **params):
         """
         The PhoneID Standard API that provides phone type and telecom carrier information to identify which phone
         numbers can receive SMS messages and/or a potential fraud risk.
-        
+
         See https://developer.telesign.com/docs/rest_phoneid-standard for detailed API documentation.
         """
-        return self.get(PHONEID_STANDARD_RESOURCE.format(phone_number=phone_number),
-                        **params)
+        return self.get(
+            PHONEID_STANDARD_RESOURCE.format(phone_number=phone_number), **params
+        )
 
     def score(self, phone_number, ucid, **params):
         """
@@ -39,9 +59,11 @@ class PhoneIdClient(_PhoneIdClient):
 
         See https://developer.telesign.com/docs/rest_api-phoneid-score for detailed API documentation.
         """
-        return self.get(PHONEID_SCORE_RESOURCE.format(phone_number=phone_number),
-                        ucid=ucid,
-                        **params)
+        return self.get(
+            PHONEID_SCORE_RESOURCE.format(phone_number=phone_number),
+            ucid=ucid,
+            **params
+        )
 
     def contact(self, phone_number, ucid, **params):
         """
@@ -50,9 +72,11 @@ class PhoneIdClient(_PhoneIdClient):
 
         See https://developer.telesign.com/docs/rest_api-phoneid-contact for detailed API documentation.
         """
-        return self.get(PHONEID_CONTACT_RESOURCE.format(phone_number=phone_number),
-                        ucid=ucid,
-                        **params)
+        return self.get(
+            PHONEID_CONTACT_RESOURCE.format(phone_number=phone_number),
+            ucid=ucid,
+            **params
+        )
 
     def live(self, phone_number, ucid, **params):
         """
@@ -61,9 +85,9 @@ class PhoneIdClient(_PhoneIdClient):
 
         See https://developer.telesign.com/docs/rest_api-phoneid-live for detailed API documentation.
         """
-        return self.get(PHONEID_LIVE_RESOURCE.format(phone_number=phone_number),
-                        ucid=ucid,
-                        **params)
+        return self.get(
+            PHONEID_LIVE_RESOURCE.format(phone_number=phone_number), ucid=ucid, **params
+        )
 
     def number_deactivation(self, phone_number, ucid, **params):
         """
@@ -72,6 +96,8 @@ class PhoneIdClient(_PhoneIdClient):
 
         See https://developer.telesign.com/docs/rest_api-phoneid-number-deactivation for detailed API documentation.
         """
-        return self.get(PHONEID_NUMBER_DEACTIVATION_RESOURCE.format(phone_number=phone_number),
-                        ucid=ucid,
-                        **params)
+        return self.get(
+            PHONEID_NUMBER_DEACTIVATION_RESOURCE.format(phone_number=phone_number),
+            ucid=ucid,
+            **params
+        )
