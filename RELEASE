@@ -1,3 +1,8 @@
+2.3.0
+- Created OmniVerify class for adding retrieve verification process functionality
+- Updated the VerifyClient class
+- Added Unit and Integration tests to telesignenterpise.test folder
+
 2.2.2
 - Added tracking to requests
 
