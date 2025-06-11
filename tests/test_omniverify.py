@@ -5,7 +5,7 @@ from telesignenterprise.omniverify import OmniVerify
 @pytest.fixture
 def omniverify():
     customer_id = "FFFFFFFF-EEEE-DDDD-1234-AB1234567890"
-    api_key = "EXAMPLE----TE8sTgg45yusumoN6BYsBVkh+yRJ5czgsnCehZaOYldPJdmFh6NeX8kunZ2zU1YWaUw/0wV6xfw=="
+    api_key = "ABC12345yusumoN6BYsBVkh+yRJ5czgsnCehZaOYldPJdmFh6NeX8kunZ2zU1YWaUw/0wV6xfw=="
     return OmniVerify(customer_id, api_key)
 
 def test_create_verification_process_success(omniverify):

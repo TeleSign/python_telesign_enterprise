@@ -3,7 +3,7 @@ from telesignenterprise.omniverify import OmniVerify
 
 # Replace with actual credentials for successful test response
 CUSTOMER_ID = "FFFFFFFF-EEEE-DDDD-1234-AB1234567890"
-API_KEY = "EXAMPLE----TE8sTgg45yusumoN6BYsBVkh+yRJ5czgsnCehZaOYldPJdmFh6NeX8kunZ2zU1YWaUw/0wV6xfw=="
+API_KEY = "ABC12345yusumoN6BYsBVkh+yRJ5czgsnCehZaOYldPJdmFh6NeX8kunZ2zU1YWaUw/0wV6xfw=="
 
 @pytest.fixture(scope="module")
 def omniverify():

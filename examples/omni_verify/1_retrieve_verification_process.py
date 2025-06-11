@@ -3,7 +3,7 @@ from telesignenterprise.omniverify import OmniVerify
 import json
 
 customer_id = "FFFFFFFF-EEEE-DDDD-1234-AB1234567890"
-api_key = "EXAMPLE----TE8sTgg45yusumoN6BYsBVkh+yRJ5czgsnCehZaOYldPJdmFh6NeX8kunZ2zU1YWaUw/0wV6xfw=="
+api_key = "ABC12345yusumoN6BYsBVkh+yRJ5czgsnCehZaOYldPJdmFh6NeX8kunZ2zU1YWaUw/0wV6xfw=="
 
 phone_number = input("Please enter the phone number (with country code, digits only): ").strip()
 if not phone_number.isdigit():
