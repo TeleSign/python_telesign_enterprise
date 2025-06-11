@@ -51,5 +51,20 @@ def test_get_verification_process_success(omniverify):
 
 def test_get_verification_process_invalid_reference_id(omniverify):
     invalid_reference_id = "invalid_id"
-    with pytest.raises(AssertionError):
-        omniverify.getVerificationProcess(invalid_reference_id)
+    
+    with patch.object(OmniVerify, 'get') as mock_get:
+        mock_response = MagicMock()
+        mock_response.ok = False
+        mock_response.status_code = 400
+        mock_response.json = {"status": {"code": 3400, "description": "Invalid reference_id format"}}
+        mock_get.return_value = mock_response
+
+        response = omniverify.getVerificationProcess(invalid_reference_id)
+        
+        mock_get.assert_called_once()
+        called_url = mock_get.call_args[0][0]
+        
+        assert called_url == f"/verification/{invalid_reference_id}"
+        assert not response.ok
+        assert response.status_code == 400
+        assert response.json["status"]["code"] == 3400

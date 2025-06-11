@@ -36,10 +36,3 @@ If you use a Telesign SDK to make your request, authentication is handled behind
 * Learn to send a request to Telesign with code with one of our [tutorials](https://developer.telesign.com/enterprise/docs/tutorials).
 * Browse our [Developer Portal](https://developer.telesign.com) for tutorials, how-to guides, reference content, and more.
 * Check out our [sample code](https://github.com/TeleSign/sample_code) on GitHub.
-
-3. Testing: Install pytest 
-
-    `pip install pytest`
-    
-* Unit: pytest test_omniverify.py
-* Integration: pytest test_integration_omniverify.py
