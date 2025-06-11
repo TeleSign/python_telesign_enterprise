@@ -1,3 +1,7 @@
+2.4.0
+- Added Update Verification Process functionality to OmniVerifyClient class
+- Added unit and integration tests for update functionality
+
 2.3.0
 - Created OmniVerify class for adding retrieve verification process functionality
 
