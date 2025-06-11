@@ -1,10 +1,8 @@
 2.3.0
 - Created OmniVerify class for adding retrieve verification process functionality
 
-- Refactor of Verification Process Creation: The createVerificationProcess method was moved from the 
-  VerifyClient class to the new OmniVerify class to improve API clarity by separating omnichannel 
-  verification responsibilities, so users should now use OmniVerify.createVerificationProcess for 
-  creating verification processes, supporting better SDK organization aligned with Telesign’s evolving platform.
+- Moved the createVerificationProcess method from the VerifyClient class to the new OmniVerify class, 
+  consolidating omnichannel verification responsibilities in one place
   
 - Added unit and integration tests to telesignenterpise.test folder
 
