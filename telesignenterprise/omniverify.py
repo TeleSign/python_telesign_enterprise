@@ -32,7 +32,7 @@ class OmniVerify(RestClient):
             **kwargs
         )
 
-    def createVerificationProcess(self, phone_number, params=None):
+    def createVerificationProcess(self, phone_number, params={}):
         """
         Create a verification process for the specified phone number.
 
@@ -45,7 +45,7 @@ class OmniVerify(RestClient):
 
         return self.post(PATH_VERIFICATION_CREATE, json_fields=params)    
 
-    def getVerificationProcess(self, reference_id, params=None):
+    def getVerificationProcess(self, reference_id, params={}):
         """
         Retrieve details about the specified verification process.
 
@@ -55,8 +55,6 @@ class OmniVerify(RestClient):
         :param params: Optional query parameters as a dictionary.
         :return: Response object from the GET request.
         """
-        if params is None:
-            params = {}
         endpoint = PATH_VERIFICATION_RETRIEVE.format(reference_id=reference_id)
         headers = {"Content-Type": "application/json", "Accept": "application/json"}
 
