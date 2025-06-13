@@ -4,7 +4,7 @@
 - Moved the createVerificationProcess method from the VerifyClient class to the new OmniVerify class, 
   consolidating omnichannel verification responsibilities in one place
   
-- Added unit and integration tests to telesignenterpise.test folder
+- Added unit and integration tests 
 
 2.2.2
 - Added tracking to requests
