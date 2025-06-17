@@ -4,6 +4,7 @@ from telesign.rest import RestClient
 from telesignenterprise.constants import SOURCE_SDK
 import telesignenterprise
 import telesign
+from telesignenterprise.omniverify import OmniVerify
 
 VERIFY_SMS_RESOURCE = "/v1/verify/sms"
 VERIFY_VOICE_RESOURCE = "/v1/verify/call"
@@ -35,20 +36,12 @@ class VerifyClient(RestClient):
             sdk_version_dependency=sdk_version_dependency,
             **kwargs
         )
+        # Instantiate OmniVerify for omnichannel methods
+        self.omniverify = OmniVerify(customer_id, api_key)
 
     def createVerificationProcess(self, phone_number, params={}):
-        """
-        Use this action to create a verification process for the specified phone number.
-
-        See https://developer.telesign.com/enterprise/reference/createverificationprocess for detailed API documentation.
-        """
-        params["recipient"] = {"phone_number": phone_number}
-
-        if "verification_policy" not in params:
-            params["verification_policy"] = [{"method": "sms"}]
-
-        self.set_endpoint(BASE_URL_VERIFY_API)
-        return self.post(PATH_VERIFICATION, json_fields=params)
+        
+        return self.omniverify.createVerificationProcess(phone_number, params)  
 
     def sms(self, phone_number, **params):
         """
