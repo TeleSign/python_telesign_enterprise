@@ -28,6 +28,17 @@ else:
     print("Response:", create_response.json)
     exit(1)
 
+# Retrieve the verification process
+retrieve_response = omniverify.getVerificationProcess(reference_id)
+if retrieve_response.ok:
+    print("Verification process retrieved successfully.")
+    print(json.dumps(retrieve_response.json, indent=4))
+else:
+    print("Failed to retrieve verification process.")
+    print("Status code:", retrieve_response.status_code)
+    print("Response:", retrieve_response.json)
+    exit(1)
+
 # Prompt for OTP (security factor) and update the verification process
 security_factor = input("Please enter the OTP (security factor) to finalize the verification: ").strip()
 
@@ -35,13 +46,16 @@ update_params = {
     "action": "finalize",
     "security_factor": security_factor
 }
-update_response = omniverify.updateVerificationProcess(reference_id, update_params)
+use_basic_auth = True
+update_response = omniverify.updateVerificationProcess(reference_id, update_params, use_basic_auth=use_basic_auth)
 
 if update_response.ok:
     print("Verification process updated successfully.")
+    response_json = update_response.json() if callable(update_response.json) else update_response.json
     print("Response:")
-    print(json.dumps(update_response.json, indent=4))
+    print(json.dumps(response_json, indent=4))
 else:
     print("Failed to update verification process.")
     print("Status code:", update_response.status_code)
-    print("Response:", update_response.json)
+    response_json = update_response.json() if callable(update_response.json) else update_response.json
+    print("Response:", response_json)

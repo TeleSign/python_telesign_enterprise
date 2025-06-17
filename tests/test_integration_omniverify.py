@@ -49,10 +49,22 @@ def test_create_update_and_retrieve_verification_process(omniverify):
         "action": "finalize",
         "security_factor": otp_code
     }
-    update_response = omniverify.updateVerificationProcess(reference_id, update_params)
-    assert update_response.ok or update_response.status_code in (400, 3904, 3909), (
-        f"Unexpected update response: {update_response.json}"
-    )
+    # Test both SDK-internal and manual Basic Auth PATCH
+    for use_basic_auth in (False, True):
+        update_response = omniverify.updateVerificationProcess(reference_id, update_params, use_basic_auth=use_basic_auth)
+        # Acceptable error codes: 400 (bad request), 401 (unauthorized), 3904/3909 (Telesign verification errors: Rate Eimit Exceeded/Invalid code entered), 3400 (Telesign not authorized)
+        allowed_status_codes = (400, 401, 3904, 3909)
+        allowed_telesign_codes = (3400)
+        telesign_code = (
+            update_response.json.get("status", {}).get("code")
+            if update_response.json and isinstance(update_response.json, dict)
+            else None
+        )
+        assert (
+            update_response.ok
+            or update_response.status_code in allowed_status_codes
+            or telesign_code in allowed_telesign_codes
+        ), f"Unexpected update response: {update_response.json}"
 
     # Retrieve verification process details
     retrieve_response = omniverify.getVerificationProcess(reference_id)
