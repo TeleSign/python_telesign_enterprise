@@ -5,7 +5,7 @@ from telesignenterprise.omniverify import OmniVerify
 @pytest.fixture
 def omniverify():
     customer_id = "FFFFFFFF-EEEE-DDDD-1234-AB1234567890"
-    api_key = "EXAMPLE----TE8sTgg45yusumoN6BYsBVkh+yRJ5czgsnCehZaOYldPJdmFh6NeX8kunZ2zU1YWaUw/0wV6xfw=="
+    api_key = "ABC12345yusumoN6BYsBVkh+yRJ5czgsnCehZaOYldPJdmFh6NeX8kunZ2zU1YWaUw/0wV6xfw=="
     return OmniVerify(customer_id, api_key)
 
 def test_create_verification_process_success(omniverify):
@@ -68,3 +68,54 @@ def test_get_verification_process_invalid_reference_id(omniverify):
         assert not response.ok
         assert response.status_code == 400
         assert response.json["status"]["code"] == 3400
+
+def test_update_verification_process_success(omniverify):
+    reference_id = "a" * 32
+    params = {
+        "action": "finalize",
+        "security_factor": "123456"
+    }
+
+    with patch.object(OmniVerify, 'patch') as mock_patch:
+        mock_response = MagicMock()
+        mock_response.ok = True
+        mock_response.json = {
+            "status": {"code": 3900, "description": "Verified"},
+            "reference_id": reference_id
+        }
+        mock_patch.return_value = mock_response
+
+        response = omniverify.updateVerificationProcess(reference_id, params)
+
+        mock_patch.assert_called_once()
+        called_url = mock_patch.call_args[0][0]
+        called_json = mock_patch.call_args[1]['json_fields']
+
+        assert called_url == f"/verification/{reference_id}/state"
+        assert called_json["action"] == "finalize"
+        assert called_json["security_factor"] == "123456"
+        assert response.ok
+        assert response.json["status"]["code"] == 3900
+
+def test_update_verification_process_invalid_code(omniverify):
+    reference_id = "a" * 32
+    params = {
+        "action": "finalize",
+        "security_factor": "wrongcode"
+    }
+
+    with patch.object(OmniVerify, 'patch') as mock_patch:
+        mock_response = MagicMock()
+        mock_response.ok = False
+        mock_response.status_code = 400
+        mock_response.json = {
+            "status": {"code": 3904, "description": "Verification Failed"}
+        }
+        mock_patch.return_value = mock_response
+
+        response = omniverify.updateVerificationProcess(reference_id, params)
+
+        mock_patch.assert_called_once()
+        assert not response.ok
+        assert response.status_code == 400
+        assert response.json["status"]["code"] == 3904        

@@ -40,9 +40,7 @@ class VerifyClient(RestClient):
         self.omniverify = OmniVerify(customer_id, api_key)
 
     def createVerificationProcess(self, phone_number, params={}):
-        """
-        Proxy method to OmniVerify.createVerificationProcess for streamlined integration.
-        """
+        
         return self.omniverify.createVerificationProcess(phone_number, params)  
 
     def sms(self, phone_number, **params):
