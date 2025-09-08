@@ -1,6 +1,6 @@
 from __future__ import unicode_literals
 
-from telesign.appverify import AppVerifyClient as _AppVerifyClient
+from telesign.rest import RestClient
 from telesignenterprise.constants import SOURCE_SDK
 import telesignenterprise
 import telesign
@@ -11,7 +11,7 @@ APP_VERIFY_FINALIZE_RESOURCE = "/v1/verify/auto/voice/finalize"
 APP_VERIFY_STATUS_RESOURCE = "/v1/verify/auto/voice/{}"
 
 
-class AppVerifyClient(_AppVerifyClient):
+class AppVerifyClient(RestClient):
     """
     The TeleSign App Verify web service enables customers to verify devices
     through a voice call by a verification code provided in the caller ID.
