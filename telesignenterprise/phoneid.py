@@ -10,6 +10,8 @@ PHONEID_SCORE_RESOURCE = "/v1/phoneid/score/{phone_number}"
 PHONEID_CONTACT_RESOURCE = "/v1/phoneid/contact/{phone_number}"
 PHONEID_LIVE_RESOURCE = "/v1/phoneid/live/{phone_number}"
 PHONEID_NUMBER_DEACTIVATION_RESOURCE = "/v1/phoneid/number_deactivation/{phone_number}"
+PHONEID_RESOURCE = "/v1/phoneid"
+
 
 
 class PhoneIdClient(_PhoneIdClient):
@@ -101,3 +103,32 @@ class PhoneIdClient(_PhoneIdClient):
             ucid=ucid,
             **params
         )
+    
+    def phone_id_path(self,phone_number,**params):
+        """
+        Returns detailed information about a phone number, including its carrier, location, and more, by providing the phone number in the request body.
+        See https://developer.telesign.com/enterprise/reference/submitphonenumberforidentity for detailed API documentation.
+        """
+        if params == {} or params is None:
+            params = {}
+        if "consent" not in params:
+            params["consent"] = {"method" : 1}
+        resource_path = f"{PHONEID_RESOURCE}"'/'f"{phone_number}"
+        return self.post(
+            resource_path,
+            **params)
+    
+    def phone_id_body(self,phone_number,**params):
+        """
+        Returns detailed information about a phone number, including its carrier, location, and more, by providing the phone number in the request body.
+        See https://developer.telesign.com/enterprise/reference/submitphonenumberforidentityalt for detailed API documentation.
+        """
+        if params == {} or params is None:
+            params = {}
+        params["phone_number"] = phone_number
+        if "consent" not in params:
+            params["consent"] = {"method" : 1}
+        
+        return self.post(
+            PHONEID_RESOURCE,
+            params,auth_method='Basic')

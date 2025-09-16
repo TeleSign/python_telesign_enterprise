@@ -1,3 +1,6 @@
+2.4.0
+- Added methods to get information about a specified phone number.
+
 2.3.1
 - Removed dependency on AppVerifyClient from Self Service SDK
 
