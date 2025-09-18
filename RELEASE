@@ -1,3 +1,8 @@
+3.0.0
+- Added full support for the App Verify API, including reporting unknown caller ID issues and timeout events
+- Removed Legacy PID Contact
+- Removed Legacy PID Number Deactivation
+
 2.4.0
 - Added methods to get information about a specified phone number.
 

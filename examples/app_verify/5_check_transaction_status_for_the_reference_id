@@ -1,0 +1,27 @@
+from __future__ import print_function
+from telesignenterprise.appverify import AppVerifyClient
+
+customer_id = "FFFFFFFF-EEEE-DDDD-1234-AB1234567890"
+api_key = "ABC12345yusumoN6BYsBVkh+yRJ5czgsnCehZaOYldPJdmFh6NeX8kunZ2zU1YWaUw/0wV6xfw=="
+phone_number = "11234567890"
+
+verify = AppVerifyClient(customer_id, api_key)
+
+# Initiate App Verify Call
+initiate_response = verify.initiate(phone_number)
+print("initiate response: {}\n".format(initiate_response.json))
+
+if not initiate_response.ok:
+    print("Failed to initiate call. Exiting.")
+    exit(1)
+
+reference_id = initiate_response.json.get('reference_id')
+
+if not reference_id:
+    print("No reference ID returned. Exiting.")
+    exit(1)
+
+# Fetch transaction status for the reference ID
+status_response = verify.status(reference_id)
+print("transaction status response code: {}\n".format(status_response.status_code))
+print("transaction status response body: {}\n".format(status_response.json))

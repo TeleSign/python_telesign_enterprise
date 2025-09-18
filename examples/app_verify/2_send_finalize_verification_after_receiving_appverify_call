@@ -1,0 +1,28 @@
+from __future__ import print_function
+from telesignenterprise.appverify import AppVerifyClient
+
+customer_id = "F797DF2A-DE2D-452D-971A-A62AAD2EEF52"
+api_key = "Y8MY8YQBPDy/S41+Id+/xPvubb79UiQHXDp6DMlfsxdwcixjH1RP4DP3DNHuoAuJ0ljvWWOMU/omUv46h9tDCA=="
+phone_number = "918105955660"
+
+app_verify = AppVerifyClient(customer_id, api_key)
+
+#Initiate App Verify Call
+initiate_response = app_verify.initiate(phone_number)
+if not initiate_response.ok:
+    print(f"Error initiating app verify call: {initiate_response.json}")
+    exit(1)
+
+reference_id = initiate_response.json.get("reference_id")
+if not reference_id:
+    print("No reference ID returned from initiate call. Cannot finalize.")
+    exit(1)
+
+print(f"Verification call initiated. Reference ID: {reference_id}")
+
+verify_code = input("Please enter the verification code from the caller ID: ")
+
+# Finalize App Verify Call
+finalize_response = app_verify.finalize(reference_id, verify_code=verify_code)
+print(f"Status Code: {finalize_response.status_code if hasattr(finalize_response, 'status_code') else 'Unknown'}")
+print(f"Finalize response: {finalize_response.json}")
