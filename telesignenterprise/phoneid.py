@@ -7,10 +7,8 @@ import telesign
 
 PHONEID_STANDARD_RESOURCE = "/v1/phoneid/standard/{phone_number}"
 PHONEID_SCORE_RESOURCE = "/v1/phoneid/score/{phone_number}"
-PHONEID_CONTACT_RESOURCE = "/v1/phoneid/contact/{phone_number}"
 PHONEID_LIVE_RESOURCE = "/v1/phoneid/live/{phone_number}"
-PHONEID_NUMBER_DEACTIVATION_RESOURCE = "/v1/phoneid/number_deactivation/{phone_number}"
-
+PHONEID_RESOURCE = "/v1/phoneid"
 
 class PhoneIdClient(_PhoneIdClient):
     """
@@ -65,19 +63,6 @@ class PhoneIdClient(_PhoneIdClient):
             **params
         )
 
-    def contact(self, phone_number, ucid, **params):
-        """
-        The PhoneID Contact API delivers contact information related to the subscriber's phone number to provide another
-        set of indicators for established risk engines.
-
-        See https://developer.telesign.com/docs/rest_api-phoneid-contact for detailed API documentation.
-        """
-        return self.get(
-            PHONEID_CONTACT_RESOURCE.format(phone_number=phone_number),
-            ucid=ucid,
-            **params
-        )
-
     def live(self, phone_number, ucid, **params):
         """
         The PhoneID Live API delivers insights such as whether a phone is active or disconnected, a device is reachable
@@ -88,16 +73,32 @@ class PhoneIdClient(_PhoneIdClient):
         return self.get(
             PHONEID_LIVE_RESOURCE.format(phone_number=phone_number), ucid=ucid, **params
         )
-
-    def number_deactivation(self, phone_number, ucid, **params):
+    
+    def phone_id_path(self,phone_number,**params):
         """
-        The PhoneID Number Deactivation API determines whether a phone number has been deactivated and when, based on
-        carriers' phone number data and TeleSign's proprietary analysis.
-
-        See https://developer.telesign.com/docs/rest_api-phoneid-number-deactivation for detailed API documentation.
+        Returns detailed information about a phone number, including its carrier, location, and more, by providing the phone number in the request body.
+        See https://developer.telesign.com/enterprise/reference/submitphonenumberforidentity for detailed API documentation.
         """
-        return self.get(
-            PHONEID_NUMBER_DEACTIVATION_RESOURCE.format(phone_number=phone_number),
-            ucid=ucid,
-            **params
-        )
+        if params == {} or params is None:
+            params = {}
+        if "consent" not in params:
+            params["consent"] = {"method" : 1}
+        resource_path = f"{PHONEID_RESOURCE}"'/'f"{phone_number}"
+        return self.post(
+            resource_path,
+            **params)
+    
+    def phone_id_body(self,phone_number,**params):
+        """
+        Returns detailed information about a phone number, including its carrier, location, and more, by providing the phone number in the request body.
+        See https://developer.telesign.com/enterprise/reference/submitphonenumberforidentityalt for detailed API documentation.
+        """
+        if params == {} or params is None:
+            params = {}
+        params["phone_number"] = phone_number
+        if "consent" not in params:
+            params["consent"] = {"method" : 1}
+        self.auth_method = 'Basic'
+        return self.post(
+            PHONEID_RESOURCE,
+            params)

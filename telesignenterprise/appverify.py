@@ -5,10 +5,12 @@ from telesignenterprise.constants import SOURCE_SDK
 import telesignenterprise
 import telesign
 
-
-APP_VERIFY_INITIATE_RESOURCE = "/v1/verify/auto/voice/initiate"
-APP_VERIFY_FINALIZE_RESOURCE = "/v1/verify/auto/voice/finalize"
-APP_VERIFY_STATUS_RESOURCE = "/v1/verify/auto/voice/{}"
+APP_VERIFY_BASE_RESOURCE = "/v1/verify/auto/voice"
+APP_VERIFY_INITIATE_RESOURCE = APP_VERIFY_BASE_RESOURCE + "/initiate"
+APP_VERIFY_FINALIZE_RESOURCE = APP_VERIFY_BASE_RESOURCE + "/finalize"
+APP_VERIFY_FINALIZE_CALLERID_RESOURCE = APP_VERIFY_BASE_RESOURCE + "/finalize/callerid"
+APP_VERIFY_FINALIZE_TIMEOUT_RESOURCE = APP_VERIFY_BASE_RESOURCE + "/finalize/timeout"
+APP_VERIFY_STATUS_RESOURCE = APP_VERIFY_BASE_RESOURCE + "/{}"
 
 
 class AppVerifyClient(RestClient):
@@ -38,11 +40,13 @@ class AppVerifyClient(RestClient):
 
     def initiate(self, phone_number, **params):
         """
-        Make an Initiate request to TeleSign that includes the phone number used for the handset.
-        TeleSign places a call to the handset. This call will be terminated by the finalize request,
-        if not by the handset terminating the call in your application
+        Use this endpont to initiate verification of the specified phone number using the Telesign App Verify API.
 
-        See https://enterprise.telesign.com/docs/app-verify-api for detailed API documentation.
+        :param phone_number: The phone number to verify
+        :param params: Additional optional parameters
+        :return: API response object
+
+        See https://developer.telesign.com/enterprise/reference/sendappverifycode for detailed API documentation.
         """
         return self.post(
             APP_VERIFY_INITIATE_RESOURCE, phone_number=phone_number, **params
@@ -50,11 +54,14 @@ class AppVerifyClient(RestClient):
 
     def finalize(self, reference_id, **params):
         """
-        TeleSign compares the verify code generated for the call with the verify code
-        in the Finalize request to determine whether they match.
-        The result indicates whether the transaction is successful or not ('success' or 'failed').
+        Use this endpoint to terminate a call created using the Telesign App Verify API 
+        if the handset does not terminate the call in your application.
 
-        See https://enterprise.telesign.com/docs/app-verify-api for detailed API documentation.
+        :param reference_id: The reference ID of the verification transaction
+        :param params: Additional optional parameters
+        :return: API response object
+
+        See https://developer.telesign.com/enterprise/reference/endappverifycall for detailed API documentation.
         """
         return self.post(
             APP_VERIFY_FINALIZE_RESOURCE, reference_id=reference_id, **params
@@ -62,10 +69,44 @@ class AppVerifyClient(RestClient):
 
     def status(self, reference_id, **params):
         """
-        TeleSign looks up the status for the verification call in the
-        Initiate request to determine status of the AV call, including
-        intermediate call status such as call failed, or retry.
+        Use this endpoint to get the status of a Telesign App Verify API request that you initiated.
+        
+        :param reference_id: The reference ID of the verification transaction
+        :param params: Additional optional parameters
+        :return: API response object
 
-        See https://enterprise.telesign.com/docs/app-verify-api for detailed API documentation.
+        See https://developer.telesign.com/enterprise/reference/getappverifystatus for detailed API documentation.
         """
         return self.get(APP_VERIFY_STATUS_RESOURCE.format(reference_id), **params)
+    
+    def report_unknown_callerid(self, reference_id, unknown_caller_id):
+        """
+        If a Telesign App Verify API call is unsuccessful, the device will not receive the call. 
+        If there is a prefix sent by Telesign in the initiate request and it cannot be matched to the CLI of the verification call, 
+        you can use use this endpoint to report the issue to Telesign for troubleshooting.
+
+        :param reference_id: The reference ID of the verification transaction
+        :param unknown_caller_id: The unknown caller ID to report
+        :return: API response object
+
+        See https://developer.telesign.com/enterprise/reference/reportappverifycallerid for detailed API documentation.
+        """
+        params = {
+            "reference_id": reference_id,
+            "unknown_caller_id": unknown_caller_id,
+        }
+        return self.post(APP_VERIFY_FINALIZE_CALLERID_RESOURCE, **params)
+
+    def report_timeout(self, reference_id):
+        """
+        Use this endpont to initiate verification of the specified phone number using the Telesign App Verify API.
+
+        :param reference_id: The reference ID of the verification transaction
+        :return: API response object
+
+        See https://developer.telesign.com/enterprise/reference/reportappverifytimeout for detailed API documentation.
+        """
+        params = {
+            "reference_id": reference_id,
+        }
+        return self.post(APP_VERIFY_FINALIZE_TIMEOUT_RESOURCE, **params)

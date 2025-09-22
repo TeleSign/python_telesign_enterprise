@@ -1,6 +1,6 @@
 from setuptools import setup, find_packages
 
-version = "2.3.1"
+version = "3.0.0"
 
 try:
     with open("README") as f:
@@ -32,6 +32,6 @@ setup(name='telesignenterprise',
       author='TeleSign Corp.',
       author_email='support@telesign.com',
       url="https://github.com/telesign/python_telesign",
-      install_requires=['telesign >=2.2.1, <=2.3.1'],
+      install_requires=['telesign >=2.2.1, <=3.0.0'],
       packages=find_packages(exclude=['test', 'test.*', 'examples', 'examples.*']),
       )
