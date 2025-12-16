@@ -1,3 +1,7 @@
+3.0.1
+- Removed deprecated pkg_resources.declare_namespace() usage.
+- Updated classifiers to Python 3.7–3.12.
+
 3.0.0
 - Added full support for the App Verify API, including reporting unknown caller ID issues and timeout events
 - Removed Legacy PID Contact
