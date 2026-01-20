@@ -1,5 +1,4 @@
 from __future__ import unicode_literals
-
 from telesign.score import ScoreClient as _ScoreClient
 from telesignenterprise.constants import SOURCE_SDK
 import telesignenterprise
@@ -15,7 +14,7 @@ class ScoreClient(_ScoreClient):
         self,
         customer_id,
         api_key,
-        rest_endpoint="https://rest-ww.telesign.com",
+        rest_endpoint="https://detect.telesign.com",
         **kwargs
     ):
         sdk_version_origin = telesignenterprise.__version__
