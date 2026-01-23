@@ -38,6 +38,6 @@ setup(
     author="TeleSign Corp.",
     author_email="support@telesign.com",
     url="https://github.com/telesign/python_telesign",
-    install_requires=["telesign >=2.2.1, <=4.0.0"],
+    install_requires=["telesign >=4.0.0, <5.0.0"],
     packages=find_packages(exclude=["test", "test.*", "examples", "examples.*"]),
 )
