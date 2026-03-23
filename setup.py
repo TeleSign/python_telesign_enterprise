@@ -1,9 +1,16 @@
+from os import path
 from setuptools import setup, find_packages
 
-version = "4.0.0"
+here = path.abspath(path.dirname(__file__))
+
+version = "4.0.1"  
+
+version_path = path.join(here, "telesignenterprise", "_version.py")
+with open(version_path, "w") as f:
+    f.write('"""Auto-generated version file"""\n__version__ = "{}"\n'.format(version))
 
 try:
-    with open("README") as f:
+    with open(path.join(here, "README"), encoding="utf-8") as f:
         readme_content = f.read()
 except (IOError, Exception):
     readme_content = ""
