@@ -3,7 +3,7 @@ from setuptools import setup, find_packages
 
 here = path.abspath(path.dirname(__file__))
 
-version = "4.0.1"  
+version = "4.0.2"  
 
 version_path = path.join(here, "telesignenterprise", "_version.py")
 with open(version_path, "w") as f:
