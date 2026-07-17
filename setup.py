@@ -3,7 +3,7 @@ from setuptools import setup, find_packages
 
 here = path.abspath(path.dirname(__file__))
 
-version = "4.0.2"  
+version = "4.1.0"
 
 version_path = path.join(here, "telesignenterprise", "_version.py")
 with open(version_path, "w") as f:
@@ -45,6 +45,6 @@ setup(
     author="TeleSign Corp.",
     author_email="support@telesign.com",
     url="https://github.com/telesign/python_telesign",
-    install_requires=["telesign >=4.0.0, <5.0.0"],
+    install_requires=["telesign >=4.1.0, <5.0.0"],
     packages=find_packages(exclude=["test", "test.*", "examples", "examples.*"]),
 )
