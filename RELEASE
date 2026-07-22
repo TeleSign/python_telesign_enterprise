@@ -1,5 +1,6 @@
 4.1.0
 - Added support for Email Intelligence API
+- Added missing tests
 
 4.0.2
 - Added missing examples for messaging
